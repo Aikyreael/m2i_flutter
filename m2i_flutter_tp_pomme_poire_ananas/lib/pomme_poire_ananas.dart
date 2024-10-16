@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:is_prime_number/is_prime_number.dart';
-import 'package:m2i_flutter_tp_pomme_poire_ananas/fruit_dialog.dart';
 
 class PommePoireAnanas extends StatefulWidget {
   const PommePoireAnanas({super.key, required this.title});
@@ -41,9 +40,9 @@ class _PommePoireAnanasState extends State<PommePoireAnanas> {
 }
 
   Image imageBuilder(int index) {
-    if ( isPrime(index) ) {
+    if ( isPrime(_fruits[index - 1]) ) {
       return const Image(image: AssetImage('images/ananas.png'), height: 50, width: 50,);
-    } else if ( index % 2 == 0 ) {
+    } else if ( _fruits[index - 1] % 2 == 0 ) {
       return const Image(image: AssetImage('images/poire.png'), height: 50, width: 50,);
     } else {
       return const Image(image: AssetImage('images/pomme.png'), height: 50, width: 50,);
@@ -127,7 +126,8 @@ class _PommePoireAnanasState extends State<PommePoireAnanas> {
               child: const Text('supprimer'),
               onPressed: () {
                 setState(() {
-                  _fruits.remove(index);
+                  _fruits.removeWhere((fruit) => fruit == _fruits[index]);
+                  Navigator.of(context).pop();
                 });
               },
             ),
