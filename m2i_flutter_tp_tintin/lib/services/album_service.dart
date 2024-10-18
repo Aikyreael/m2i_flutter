@@ -6,6 +6,7 @@ import 'package:m2i_flutter_tp_tintin/models/album.dart';
 import 'package:m2i_flutter_tp_tintin/models/gps.dart';
 
 class AlbumService {
+  static List<Album> albums = [];
 
   static Future<List<Album>> generateAlbums() async {
     return List.generate(20, (i) =>
@@ -21,9 +22,14 @@ class AlbumService {
   }
 
   static Future<List<Album>?> fetchAlbums() async {
+    if (albums.isNotEmpty) {
+      return albums;
+    }
+
     final String jsonString = await rootBundle.loadString('data/albums.json');
     final data = jsonDecode(jsonString) as List;
 
-    return data.map((album) => Album.fromJson(album as Map<String, dynamic>)).toList();
+    albums = data.map((album) => Album.fromJson(album as Map<String, dynamic>)).toList();
+    return albums;
   }
 }

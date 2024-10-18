@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import '../models/album.dart';
 
 class AlbumDetails extends StatefulWidget {
-  const AlbumDetails({super.key, required this.album});
+  const AlbumDetails({super.key, required this.album, required this.readingList, required this.onAdd, required this.onDelete});
 
   final Album album;
+  final List<Album> readingList;
+  final Function onAdd;
+  final Function onDelete;
 
   @override
   State<AlbumDetails> createState() => _AlbumDetailsState();
@@ -13,12 +16,36 @@ class AlbumDetails extends StatefulWidget {
 
 class _AlbumDetailsState extends State<AlbumDetails> {
 
+  FloatingActionButton buildButton() {
+    if (widget.readingList.contains(widget.album)) {
+      return FloatingActionButton.extended(
+        onPressed: () {
+          setState(() {widget.onDelete(widget.album);});
+        },
+        label: const Text('Retirer'),
+        icon: const Icon(Icons.remove),
+      );
+    }
+    return FloatingActionButton.extended(
+      onPressed: () {
+        setState(() {widget.onAdd(widget.album);});
+      },
+      label: const Text('Ajouter'),
+      icon: const Icon(Icons.add),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.teal,
-        title: Text(widget.album.title, style: const TextStyle(color: Colors.white)),
+        title: Row( children: [
+          Text(widget.album.title, style: const TextStyle(color: Colors.white)),
+          if (widget.readingList.contains(widget.album))... [
+            const Icon(Icons.grade_rounded, color: Colors.white),
+          ]
+        ],),
         centerTitle: true,
       ),
       body: ListView(
@@ -48,15 +75,9 @@ class _AlbumDetailsState extends State<AlbumDetails> {
               ],
             ),
           ),
-          FloatingActionButton.extended(
-            onPressed: () {
-              // Add your onPressed code here!
-            },
-            label: const Text('Add'),
-            icon: const Icon(Icons.add),
-          ),
         ],
       ),
+      floatingActionButton: buildButton(),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:m2i_flutter_tp_tintin/models/album.dart';
 import 'package:m2i_flutter_tp_tintin/widgets/albums_scrollable_list.dart';
 
 class AlbumsMaster extends StatefulWidget {
@@ -12,6 +13,15 @@ class AlbumsMaster extends StatefulWidget {
 
 class _AlbumsMasterState extends State<AlbumsMaster> {
 
+  List<Album> readingList = [];
+
+  void onAdd(Album album) {
+    setState(() {readingList.add(album);});
+  }
+
+  void onDelete(Album album) {
+    setState(() {readingList.remove(album);});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +31,7 @@ class _AlbumsMasterState extends State<AlbumsMaster> {
         title: Text(widget.title, style: const TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
-      body: const AlbumsScrollableList(),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: ,
-      //   tooltip: 'Increment',
-      //   child: const Icon(Icons.add),
-      // ),
+      body: AlbumsScrollableList(readingList: readingList, onAdd: onAdd, onDelete: onDelete),
     );
   }
 
