@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:m2i_flutter_tp_tintin/screens/album_details.dart';
-import 'package:m2i_flutter_tp_tintin/services/album_service.dart';
 import 'package:provider/provider.dart';
 
 import '../models/album.dart';
@@ -19,22 +18,25 @@ class _AlbumPreviewState extends State<AlbumPreview> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-        contentPadding: const EdgeInsets.all(8),
+        contentPadding: const EdgeInsets.all(5),
         tileColor: const Color(0xFF243A39),
-        title: Row(
-          children: [
-            Text(widget.album.title,
-                style: const TextStyle(color: Colors.white)),
-            Consumer<ReadingListProvider>(
-              builder: (BuildContext context, ReadingListProvider value,
-                  Widget? child) {
-                if (value.readingList.contains(widget.album)) {
-                  return const Icon(Icons.grade_rounded, color: Colors.white);
-                }
-                return const SizedBox.shrink();
-              },
-            )
-          ],
+        title: SizedBox(
+          width: 200,
+          child: Row(
+            children: [
+              Text(widget.album.title,
+                  style: const TextStyle(color: Colors.white)),
+              Consumer<ReadingListProvider>(
+                builder: (BuildContext context, ReadingListProvider value,
+                    Widget? child) {
+                  if (value.readingList.contains(widget.album)) {
+                    return const Icon(Icons.grade_rounded, color: Colors.white);
+                  }
+                  return const SizedBox.shrink();
+                },
+              )
+            ],
+          ),
         ),
         subtitle: Text("${widget.album.resume.substring(0, 67)}...",
             style: const TextStyle(color: Color(0x5CFFFFFF))),
@@ -48,7 +50,6 @@ class _AlbumPreviewState extends State<AlbumPreview> {
           icon: const Icon(Icons.info),
           color: Colors.white,
           onPressed: () {
-            AlbumService.fetchAlbums();
             Navigator.push(
               context,
               MaterialPageRoute(

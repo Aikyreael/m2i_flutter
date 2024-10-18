@@ -22,7 +22,7 @@ class _AlbumsScrollableListState extends State<AlbumsScrollableList> {
           itemCount: snapshot.data!.length,
           itemBuilder: (BuildContext context, index) => Card(
             clipBehavior: Clip.antiAlias,
-            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             child: AlbumPreview(album: snapshot.data![index]),
           ),
         )
